@@ -39,7 +39,9 @@ public class ClickstreamEnrichment {
 
         KStreamBuilder builder = new KStreamBuilder();
 
+        // 这里Key是Integer，在发送消息时，key设置为UserID!!!
         KStream<Integer, PageView> views = builder.stream(Serdes.Integer(), new PageViewSerde(), Constants.PAGE_VIEW_TOPIC);
+        // table 发一次就可以一直用
         KTable<Integer, UserProfile> profiles = builder.table(Serdes.Integer(), new ProfileSerde(), Constants.USER_PROFILE_TOPIC, "profile-store");
         KStream<Integer, Search> searches = builder.stream(Serdes.Integer(), new SearchSerde(), Constants.SEARCH_TOPIC);
 
